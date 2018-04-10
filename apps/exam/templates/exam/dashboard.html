@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Trips</title>
+    <style>
+            *{
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+            }
+            #wrapper{
+                padding: 0px 25px;
+                width: 1000px;
+                height: auto;
+            }
+            #header h1{
+                display: inline-block;
+                margin: 20px 90px 10px 0px;
+           }
+           #header a{
+               font-size: 20px;
+           }
+           
+
+
+
+            #customers {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+            #customers tr:hover {background-color: #ddd;}
+
+            #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+            }
+                    
+        </style>
+    </head>
+<body>
+    <div id = "wrapper">
+        
+        <div id="header">
+            <h1>Welcome, {{ request.session.name }}!</h1>
+            <a href="/add_trip">Add a Trip</a> | <a href="/logout">Logout</a>
+        </div>
+        
+        <br>
+        
+        <h2>Your Trip Schedules</h2>
+        <div id = "upper_table">
+            <table id = "customers">
+                <thead>
+                    <tr class = "tablehead">
+                        <th>Destination</th>
+                        <th>Departs</th>
+                        <th>Returns</th>
+                        <th>Plan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trip in my_trips %}
+                    <tr>
+                            <td><p><a href="/trip_info/{{ trip.id }}">{{ trip.destination }}</a></p></td>
+                            <td>{{ trip.depart_date }}</td>
+                            <td>{{ trip.return_date }}</td>
+                            <td>{{ trip.description }}</td>
+                            <td><a href="/remove_trip/{{ trip.id }}">Remove This Trip</a></td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+        <br>
+        <h2>Other User's Travel Plans</h2>
+        <div id = "lower_table">
+            <table id = "customers">
+                <thead>
+                    <tr class = "tablehead">
+                            <th>Name</th>
+                            <th>Destination</th>
+                            <th>Departs</th>
+                            <th>Returns</th>
+                            <th>Plan</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    {% for trip in available_trips %}
+                    <tr>
+                        <td>{{ trip.created_by.name }}</td>    
+                        <td><p><a href="/trip_info/{{ trip.id }}">{{ trip.destination }}</a></p></td>
+                        <td>{{ trip.depart_date }}</td>
+                        <td>{{ trip.return_date }}</td>
+                        <td>{{ trip.description }}</td>
+                        <td><a href="/reserve_trip/{{ trip.id }}">Reserve This Trip</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

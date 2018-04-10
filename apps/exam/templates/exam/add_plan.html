@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User</title>
+    <style>
+        #add_trip {
+            font-weight: bold;
+        }
+        
+    </style>
+</head>
+<style>
+        *{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+        
+        }
+        #wrapper{
+                padding: 0px 25px;
+                width: 1000px;
+                height: auto;
+        }
+        .errors{
+            color: red;
+            font-weight: bolder;
+        }
+</style>
+<body>
+    <div id="wrapper">
+    <a href="/dashboard" id = "home_link">Home</a> | 
+    <a href="/logout" id = "logout_link">Logout</a>
+    <div id="add_trip">
+        <br>
+        <h1>Add a trip:</h1>
+        <form action="/create_trip" method="post">
+        {% csrf_token %}
+        <br>
+        <label>Destination:</label>
+        <input type="text" name="destination">
+        <br>
+        <label>Description:</label>
+        <input type="text" name="description">
+        <br>
+        <label>Departure Date:</label>
+        <input type="date" name="depart_date">
+        <br>
+        <label>Return Date:</label>
+        <input type="date" name="return_date">
+        <br>
+        <input type="submit" value="Submit">
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'create_trip' in message.tags %}
+                    <p class = "errors">{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    </div>
+</div>
+
+    
+</body>
+</html>
+
+
